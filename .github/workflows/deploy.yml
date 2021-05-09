@@ -16,6 +16,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     strategy:
       matrix:
@@ -23,6 +24,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: terraform apply
+        uses: dflook/terraform-apply@v1
+        with:
+          path: infra
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -40,7 +46,11 @@ jobs:
           npm run build --if-present
 
       - name: s3 sync
-        run: aws s3 sync projects/website/dist s3://${{ secrets.S3_BUCKET }} --delete
+        run: |
+          BUCKET=$(aws ssm get-parameter --name website/bucket | jq --raw-output ".Parameter[\"Value\"]")
+          aws s3 sync projects/website/dist s3://$BUCKET --delete
 
       - name: CloudFront invalidation
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
+        run: |
+          DIST_ID=$(aws ssm get-parameter --name website/cloudfront/id | jq --raw-output ".Parameter[\"Value\"]")
+          aws cloudfront create-invalidation --distribution-id $DIST_ID --paths '/*'

@@ -1,9 +1,10 @@
-name: CI Angular app through Github Actions
+name: Full test of project
 on:
   pull_request:
     types: [ 'opened', 'edited', 'reopened', 'synchronize' ]
     branches:
       - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,3 +32,19 @@ jobs:
         run: |
           npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
           npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
+
+  terraform-plan:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: terraform plan
+        uses: dflook/terraform-plan@v1
+        with:
+          path: infra
