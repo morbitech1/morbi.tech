@@ -27,7 +27,7 @@ jobs:
       - name: terraform apply
         uses: dflook/terraform-apply@v1
         with:
-          path: my-terraform-config
+          path: infra
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
