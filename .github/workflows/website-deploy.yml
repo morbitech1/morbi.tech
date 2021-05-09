@@ -36,7 +36,7 @@ jobs:
       - name: Build and Deploy
         working-directory: projects/website
         run: |
-        npm ci
-        npm run build --if-present
-        aws s3 sync dist s3://${{ secrets.S3_BUCKET }} --delete
-        aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
+          npm ci
+          npm run build --if-present
+          aws s3 sync dist s3://${{ secrets.S3_BUCKET }} --delete
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
