@@ -47,10 +47,10 @@ jobs:
 
       - name: s3 sync
         run: |
-          BUCKET=$(aws ssm get-parameter --name website/bucket | jq --raw-output ".Parameter[\"Value\"]")
+          BUCKET=$(aws ssm get-parameter --name /website/bucket | jq --raw-output ".Parameter[\"Value\"]")
           aws s3 sync projects/website/dist s3://$BUCKET --delete
 
       - name: CloudFront invalidation
         run: |
-          DIST_ID=$(aws ssm get-parameter --name website/cloudfront/id | jq --raw-output ".Parameter[\"Value\"]")
+          DIST_ID=$(aws ssm get-parameter --name /website/cloudfront/id | jq --raw-output ".Parameter[\"Value\"]")
           aws cloudfront create-invalidation --distribution-id $DIST_ID --paths '/*'
