@@ -16,6 +16,9 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      S3_BUCKET: ${{ secrets.S3_BUCKET }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+
 
     strategy:
       matrix:
@@ -29,16 +32,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Build
+      - name: Install dependencies
+        run: |
+          pip install awscli
+
+      - name: Build and Deploy
         working-directory: projects/website
         run: |
           npm ci
           npm run build --if-present
-
-      - name: Deploy
-        uses: lbertenasco/s3-deploy@v1
-        with:
-          folder: projects/website/dist
-          bucket: ${{ secrets.S3_BUCKET }}
-          dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-          invalidation: / *
+          aws s3 sync dist s3://${S3_BUCKET} --delete
+          aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths '/*'
