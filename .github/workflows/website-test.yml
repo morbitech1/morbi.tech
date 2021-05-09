@@ -15,6 +15,7 @@ jobs:
           node-version: 15.x
 
       - name: Setup
+        working-directory: projects/website
         run: npm ci
 
       - name: Test
