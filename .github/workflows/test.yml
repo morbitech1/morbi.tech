@@ -24,7 +24,6 @@ jobs:
 
   terraform-plan:
     runs-on: ubuntu-latest
-    name: Create a plan for terraform configuration
     steps:
       - name: Checkout
         uses: actions/checkout@v2

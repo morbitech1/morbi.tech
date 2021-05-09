@@ -24,9 +24,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: terraform apply
-          uses: dflook/terraform-apply@v1
-          with:
-            path: my-terraform-config
+        uses: dflook/terraform-apply@v1
+        with:
+          path: my-terraform-config
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
