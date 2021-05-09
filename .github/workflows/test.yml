@@ -1,9 +1,10 @@
-name: CI Angular app through Github Actions
+name: Full test of project
 on:
   pull_request:
     types: [ 'opened', 'edited', 'reopened', 'synchronize' ]
     branches:
       - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
