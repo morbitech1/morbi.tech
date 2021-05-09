@@ -18,6 +18,10 @@ jobs:
         working-directory: projects/website
         run: npm ci
 
+      - name: Linting
+        working-directory: projects/website
+        run: npm run lint
+
       - name: Test
         working-directory: projects/website
         run: |
