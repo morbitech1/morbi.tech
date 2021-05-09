@@ -16,9 +16,6 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      S3_BUCKET: ${{ secrets.S3_BUCKET }}
-      CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-
 
     strategy:
       matrix:
@@ -38,8 +35,7 @@ jobs:
 
       - name: Build and Deploy
         working-directory: projects/website
-        run: |
-          npm ci
-          npm run build --if-present
-          aws s3 sync dist s3://${S3_BUCKET} --delete
-          aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths '/*'
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: aws s3 sync dist s3://${{ secrets.S3_BUCKET }} --delete
+      - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
