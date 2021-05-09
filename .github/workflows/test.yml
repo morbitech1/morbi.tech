@@ -16,9 +16,19 @@ jobs:
           node-version: 15.x
 
       - name: Setup
+        working-directory: projects/website
         run: npm ci
 
+      - name: Linting
+        working-directory: projects/website
+        run: npm run lint
+
+      - name: Build
+        working-directory: projects/website
+        run: npm run build
+
       - name: Test
+        working-directory: projects/website
         run: |
           npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
           npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
