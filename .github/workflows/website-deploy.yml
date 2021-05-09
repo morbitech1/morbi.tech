@@ -33,10 +33,14 @@ jobs:
         run: |
           pip install awscli
 
-      - name: Build and Deploy
+      - name: Build
         working-directory: projects/website
         run: |
           npm ci
           npm run build --if-present
-          aws s3 sync dist s3://${{ secrets.S3_BUCKET }} --delete
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
+
+      - name: s3 sync
+        run: aws s3 sync projects/website/dist s3://${{ secrets.S3_BUCKET }} --delete
+
+      - name: CloudFront invalidation
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
