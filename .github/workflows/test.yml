@@ -10,28 +10,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 15.x
+      - name: Use Node.js 17.x
         uses: actions/setup-node@v1
         with:
-          node-version: 15.x
+          node-version: 17.x
 
       - name: Setup
-        working-directory: projects/website
+        working-directory: projects/website/morbi.tech
         run: npm ci
 
       - name: Linting
-        working-directory: projects/website
+        working-directory: projects/website/morbi.tech
         run: npm run lint
 
       - name: Build
-        working-directory: projects/website
+        working-directory: projects/website/morbi.tech
         run: npm run build
 
       - name: Test
-        working-directory: projects/website
-        run: |
-          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-          npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
+        working-directory: projects/website/morbi.tech
+        run: npm run test:prod
+
+      - name: e2e
+        working-directory: projects/website/morbi.tech
+        run: npm run e2e
 
   terraform-plan:
     runs-on: ubuntu-latest

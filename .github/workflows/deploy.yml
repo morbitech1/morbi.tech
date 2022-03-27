@@ -20,7 +20,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ 15.x ]
+        node-version: [ 17.x ]
 
     steps:
       - uses: actions/checkout@v2
@@ -40,10 +40,10 @@ jobs:
           pip install awscli
 
       - name: Build
-        working-directory: projects/website
+        working-directory: projects/website/morbi.tech
         run: |
           npm ci
-          npm run build --if-present
+          npm run build:prod
 
       - name: s3 sync
         run: |
