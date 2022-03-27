@@ -110,3 +110,7 @@ dist
 .terraform
 
 .vscode
+
+# Cypress
+**/cypress/videos
+**/cypress/screenshots
