@@ -16,23 +16,23 @@ jobs:
           node-version: 15.x
 
       - name: Setup
-        working-directory: projects/website
+        working-directory: projects/website/morbi.tech
         run: npm ci
 
       - name: Linting
-        working-directory: projects/website
+        working-directory: projects/website/morbi.tech
         run: npm run lint
 
       - name: Build
-        working-directory: projects/website
+        working-directory: projects/website/morbi.tech
         run: npm run build
 
       - name: Test
-        working-directory: projects/website
+        working-directory: projects/website/morbi.tech
         run: npm test
 
       - name: e2e
-        working-directory: projects/website
+        working-directory: projects/website/morbi.tech
         run: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
 
   terraform-plan:
