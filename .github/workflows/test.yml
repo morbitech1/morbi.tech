@@ -27,9 +27,13 @@ jobs:
         working-directory: projects/website/morbi.tech
         run: npm run build
 
+      - name: Lint
+        working-directory: projects/website/morbi.tech
+        run: npm run lint
+
       - name: Test
         working-directory: projects/website/morbi.tech
-        run: npm test
+        run: npm run test:prod
 
       - name: e2e
         working-directory: projects/website/morbi.tech
