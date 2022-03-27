@@ -37,7 +37,7 @@ jobs:
 
       - name: e2e
         working-directory: projects/website/morbi.tech
-        run: npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
+        run: npm run e2e
 
   terraform-plan:
     runs-on: ubuntu-latest
