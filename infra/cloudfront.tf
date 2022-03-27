@@ -15,20 +15,23 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
 
   aliases = [
-  "morbi.tech"]
+    "morbi.tech"
+  ]
 
   default_cache_behavior {
-    allowed_methods = [
+    allowed_methods  = [
       "DELETE",
       "GET",
       "HEAD",
       "OPTIONS",
       "PATCH",
       "POST",
-    "PUT"]
-    cached_methods = [
+      "PUT",
+    ]
+    cached_methods   = [
       "GET",
-    "HEAD"]
+      "HEAD",
+    ]
     target_origin_id = local.s3_origin_id
 
     forwarded_values {
@@ -46,17 +49,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   price_class = "PriceClass_200"
-
-  restrictions {
-    geo_restriction {
-      restriction_type = "whitelist"
-      locations = [
-        "US",
-        "CA",
-        "GB",
-      "DE"]
-    }
-  }
 
   tags = {
     Environment = "production"
