@@ -129,9 +129,21 @@
               "devServerTarget": "morbi.tech:serve:production"
             }
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "morbi.tech"
+  "defaultProject": "morbi.tech",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
