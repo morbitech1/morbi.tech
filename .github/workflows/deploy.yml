@@ -45,7 +45,7 @@ jobs:
           npm ci
           npm run build:prod
           BUCKET=$(aws ssm get-parameter --name /website/bucket | jq --raw-output ".Parameter[\"Value\"]")
-          aws s3 sync dist s3://$BUCKET --delete
+          aws s3 sync dist/morbi.tech s3://$BUCKET --delete
 
       - name: CloudFront invalidation
         run: |
